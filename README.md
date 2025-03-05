@@ -6,29 +6,53 @@ A simple ASP.NET Core Minimal API that simulates battles in the board game Risk.
 Send a `GET` request to the `/battle` endpoint with the number of attacking and defending troops.
 
 ### Example Request:
-`https://localhost:7262/battle?attTroops=5&defTroops=5`
+`https://localhost:<PORT>/battle?attTroops=6&defTroops=7`
 
 Replace `<PORT>` with the actual port your API runs on.
 
 ### Example Response:
 ```{
-  "initialAttackers": 5,
-  "initialDefenders": 5,
+  {
+  "initialAttackers": 6,
+  "initialDefenders": 7,
   "remainingAttackers": 1,
-  "remainingDefenders": 4,
+  "remainingDefenders": 2,
   "winner": "Defenders",
   "rounds": [
     {
-      "attackerRolls": [5, 1, 1],
-      "defenderRolls": [3, 1]
+      "round": 1,
+      "attackerRolls": [6, 6, 3],
+      "defenderRolls": [4, 1],
+      "remainingAttackers": 6,
+      "remainingDefenders": 5
     },
     {
-      "attackerRolls": [6, 3, 2],
-      "defenderRolls": [6, 4]
+      "round": 2,
+      "attackerRolls": [6, 4, 2],
+      "defenderRolls": [5, 4],
+      "remainingAttackers": 5,
+      "remainingDefenders": 4
     },
     {
-      "attackerRolls": [4],
-      "defenderRolls": [6,3]
+      "round": 3,
+      "attackerRolls": [3, 2, 1],
+      "defenderRolls": [5, 3],
+      "remainingAttackers": 3,
+      "remainingDefenders": 4
+    },
+    {
+      "round": 4,
+      "attackerRolls": [6, 4],
+      "defenderRolls": [4, 2],
+      "remainingAttackers": 3,
+      "remainingDefenders": 2
+    },
+    {
+      "round": 5,
+      "attackerRolls": [4, 2],
+      "defenderRolls": [5, 4],
+      "remainingAttackers": 1,
+      "remainingDefenders": 2
     }
   ]
 }
