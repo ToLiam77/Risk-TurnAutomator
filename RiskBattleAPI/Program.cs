@@ -35,19 +35,16 @@ static BattleResult FindWinner(int attTroops, int defTroops)
 {
     var battleLog = new BattleResult { InitialAttackers = attTroops, InitialDefenders = defTroops };
 
+    int roundCouter = 0;
     while (defTroops > 0 && attTroops > 1)
     {
+        roundCouter++;
+
         int attDice = Math.Min(3, attTroops - 1);
         int defDice = Math.Min(2, defTroops);
 
         int[] attackerRolls = RollDice(attDice);
         int[] defenderRolls = RollDice(defDice);
-
-        battleLog.Rounds.Add(new BattleRound
-        {
-            AttackerRolls = attackerRolls,
-            DefenderRolls = defenderRolls
-        });
 
         for (int i = 0; i < Math.Min(attDice, defDice); i++)
         {
@@ -56,10 +53,19 @@ static BattleResult FindWinner(int attTroops, int defTroops)
             else
                 defTroops--;
         }
+
+        battleLog.Rounds.Add(new BattleRound
+        {
+            Round = roundCouter,
+            AttackerRolls = attackerRolls,
+            DefenderRolls = defenderRolls,
+            RemainingAttackers = attTroops,
+            RemainingDefenders = defTroops
+        });
     }
 
-    battleLog.RemainingAttackers = attTroops;
-    battleLog.RemainingDefenders = defTroops;
+    battleLog.AttackersRemaining = attTroops;
+    battleLog.DefendersRemaining = defTroops;
     battleLog.Winner = defTroops == 0 ? "Attackers" : "Defenders";
 
     return battleLog;
@@ -78,14 +84,17 @@ public class BattleResult
 {
     public int InitialAttackers { get; set; }
     public int InitialDefenders { get; set; }
-    public int RemainingAttackers { get; set; }
-    public int RemainingDefenders { get; set; }
+    public int AttackersRemaining { get; set; }
+    public int DefendersRemaining { get; set; }
     public string Winner { get; set; }
     public List<BattleRound> Rounds { get; set; } = new List<BattleRound>();
 }
 
 public class BattleRound
 {
+    public int Round { get; set; }
     public int[] AttackerRolls { get; set; }
     public int[] DefenderRolls { get; set; }
+    public int RemainingAttackers { get; set; }
+    public int RemainingDefenders { get; set; }
 }
